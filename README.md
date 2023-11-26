@@ -6,6 +6,19 @@ This way you can also use existing third-party annotations that you don't own.
 
 ## Tests
 
+To tell the Companionate plugin which annotations to look for in your tests,
+you can declare them using the `COMPANIONATE_ANNOTATIONS` directive in your test file.
+
+```kotlin
+package com.example
+
+// COMPANIONATE_ANNOTATIONS: com.example.Companionate
+annotation class Companionate
+
+@Companionate
+interface Sample
+```
+
 If you're getting ClassNotFoundException for `com/intellij/openapi/util/SystemInfo` you likely use the
 compiler embeddable as dependency `org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.20`.
 Use the `org.jetbrains.kotlin:kotlin-compiler:1.9.20` instead or include the
