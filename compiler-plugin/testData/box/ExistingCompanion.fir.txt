@@ -1,0 +1,18 @@
+FILE: ExistingCompanion.kt
+    package io.mths.companionate
+
+    public final annotation class Companionate : R|kotlin/Annotation| {
+        public constructor(): R|io/mths/companionate/Companionate| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    public abstract interface Example : R|kotlin/Any| {
+        public final companion object Companion : R|kotlin/Any| {
+            private constructor(): R|io/mths/companionate/Example.Companion| {
+                super<R|kotlin/Any|>()
+            }
+
+        }
+
+    }

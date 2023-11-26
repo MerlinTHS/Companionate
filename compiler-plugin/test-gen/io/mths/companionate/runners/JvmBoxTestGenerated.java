@@ -27,4 +27,10 @@ public class JvmBoxTestGenerated extends AbstractJvmBoxTest {
     public void testAnnotatedInterface() throws Exception {
         runTest("testData/box/AnnotatedInterface.kt");
     }
+
+    @Test
+    @TestMetadata("ExistingCompanion.kt")
+    public void testExistingCompanion() throws Exception {
+        runTest("testData/box/ExistingCompanion.kt");
+    }
 }
