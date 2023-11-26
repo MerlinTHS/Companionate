@@ -1,7 +1,8 @@
 package io.mths.companionate.runners
 
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
-import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives
+import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives.ENABLE_PLUGIN_PHASES
+import org.jetbrains.kotlin.test.directives.FirDiagnosticsDirectives.FIR_DUMP
 import org.jetbrains.kotlin.test.initIdeaConfiguration
 import org.jetbrains.kotlin.test.runners.AbstractKotlinCompilerTest
 import org.jetbrains.kotlin.test.runners.baseFirDiagnosticTestConfiguration
@@ -27,7 +28,7 @@ fun TestConfigurationBuilder.commonFirWithPluginFrontendConfiguration() {
     baseFirDiagnosticTestConfiguration()
 
     defaultDirectives {
-        +FirDiagnosticsDirectives.ENABLE_PLUGIN_PHASES
-        +FirDiagnosticsDirectives.FIR_DUMP
+        + ENABLE_PLUGIN_PHASES
+        + FIR_DUMP
     }
 }

@@ -1,5 +1,6 @@
 package io.mths.companionate.runners
 
+import io.mths.companionate.CompanionateDirectives
 import io.mths.companionate.services.ExtensionRegistrarConfigurator
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.test.FirParser
@@ -32,6 +33,7 @@ open class AbstractJvmBoxTest : BaseTestRunner(), RunnerWithTargetBackendForTest
         commonFirWithPluginFrontendConfiguration()
         fir2IrStep()
 
+		useDirectives(CompanionateDirectives)
         useConfigurators(::ExtensionRegistrarConfigurator)
         useAfterAnalysisCheckers(::BlackBoxCodegenSuppressor)
     }

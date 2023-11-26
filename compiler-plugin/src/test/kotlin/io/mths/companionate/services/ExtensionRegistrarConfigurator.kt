@@ -1,5 +1,6 @@
 package io.mths.companionate.services
 
+import io.mths.companionate.CompanionateDirectives.COMPANIONATE_ANNOTATIONS
 import io.mths.companionate.FirCompanionateRegistrar
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar.ExtensionStorage
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
@@ -10,13 +11,10 @@ import org.jetbrains.kotlin.test.services.EnvironmentConfigurator
 import org.jetbrains.kotlin.test.services.TestServices
 
 class ExtensionRegistrarConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
-	// TODO: Replace with custom directives
-	private val annotations = listOf(
-		"io.mths.companionate.Companionate",
-	)
 
 	@ExperimentalCompilerApi
 	override fun ExtensionStorage.registerCompilerExtensions(module: TestModule, configuration: CompilerConfiguration) {
-        FirExtensionRegistrarAdapter.registerExtension(FirCompanionateRegistrar(annotations))
+        val annotations = module.directives[COMPANIONATE_ANNOTATIONS]
+		FirExtensionRegistrarAdapter.registerExtension(FirCompanionateRegistrar(annotations))
     }
 }
