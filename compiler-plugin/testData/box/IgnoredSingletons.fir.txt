@@ -1,0 +1,15 @@
+FILE: IgnoredSingletons.kt
+    package io.mths.companionate
+
+    public final annotation class Companionate : R|kotlin/Annotation| {
+        public constructor(): R|io/mths/companionate/Companionate| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|io/mths/companionate/Companionate|() public final object Singleton : R|kotlin/Any| {
+        private constructor(): R|io/mths/companionate/Singleton| {
+            super<R|kotlin/Any|>()
+        }
+
+    }

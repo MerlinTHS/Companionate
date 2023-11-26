@@ -4,6 +4,8 @@ Companionate is a compiler plugin that allows you to add a companion object to c
 that are annotated with an arbitrary annotation that you can specify in the build configuration.
 This way you can also use existing third-party annotations that you don't own.
 
+It ignores annotated singletons since they cannot contain a companion object.
+
 ## Tests
 
 To tell the Companionate plugin which annotations to look for in your tests,

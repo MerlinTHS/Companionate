@@ -33,4 +33,10 @@ public class JvmBoxTestGenerated extends AbstractJvmBoxTest {
     public void testExistingCompanion() throws Exception {
         runTest("testData/box/ExistingCompanion.kt");
     }
+
+    @Test
+    @TestMetadata("IgnoredSingletons.kt")
+    public void testIgnoredSingletons() throws Exception {
+        runTest("testData/box/IgnoredSingletons.kt");
+    }
 }

@@ -11,7 +11,6 @@ import org.jetbrains.kotlin.fir.plugin.createDefaultPrivateConstructor
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassLikeSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirClassSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirConstructorSymbol
-import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.name.SpecialNames
@@ -23,10 +22,10 @@ class CompanionGenerator(session: FirSession, annotations: List<String>) : FirDe
 		override fun toString() = "CompanionGeneratorKey"
 	}
 
-	private val companionPredicate = LookupPredicate.create { annotated(annotations.map(::FqName)) }
+	private val annotatedPredicate = LookupPredicate.create { annotated(annotations.map(::FqName)) }
 
 	override fun FirDeclarationPredicateRegistrar.registerPredicates() {
-		register(companionPredicate)
+		register(annotatedPredicate)
 	}
 
     override fun generateNestedClassLikeDeclaration(owner: FirClassSymbol<*>, name: Name, context: NestedClassGenerationContext): FirClassLikeSymbol<*>? =
@@ -45,12 +44,18 @@ class CompanionGenerator(session: FirSession, annotations: List<String>) : FirDe
     }
 
     override fun getNestedClassifiersNames(classSymbol: FirClassSymbol<*>, context: NestedClassGenerationContext): Set<Name> =
-        runIf(session.predicateBasedProvider.matches(companionPredicate, classSymbol)) {
+        runIf(classSymbol matches annotatedPredicate && !classSymbol.isSingleton) {
             setOf(DEFAULT_NAME_FOR_COMPANION_OBJECT)
         }.orEmpty()
+
+	private infix fun FirClassSymbol<*>.matches(predicate: LookupPredicate): Boolean =
+		session.predicateBasedProvider.matches(predicate, this)
 }
 
 private val FirClassSymbol<*>.isCompanion get() =
-	(classKind == ClassKind.OBJECT) and (this is FirRegularClassSymbol) and with(classId) {
+	isSingleton && with(classId) {
 		isNestedClass && shortClassName == DEFAULT_NAME_FOR_COMPANION_OBJECT
 	}
+
+private val FirClassSymbol<*>.isSingleton get() =
+	classKind == ClassKind.OBJECT
