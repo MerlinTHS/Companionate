@@ -1,5 +1,7 @@
 rootProject.name = "Companionate"
 include(":compiler-plugin")
+include("compiler-plugin")
+include("annotations")
 
 pluginManagement {
     repositories {
