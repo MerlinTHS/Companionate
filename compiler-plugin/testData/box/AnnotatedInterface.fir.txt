@@ -1,0 +1,12 @@
+FILE: AnnotatedInterface.kt
+    package io.mths.companionate
+
+    @R|io/mths/companionate/Companionate|() public abstract interface Person : R|kotlin/Any| {
+        public final companion object Companion : R|kotlin/Any| {
+            private constructor(): R|io/mths/companionate/Person.Companion| {
+                super<R|kotlin/Any|>()
+            }
+
+        }
+
+    }

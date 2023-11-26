@@ -1,5 +1,4 @@
 rootProject.name = "Companionate"
-include(":compiler-plugin")
 include("compiler-plugin")
 include("annotations")
 
@@ -15,13 +14,14 @@ plugins {
 }
 
 dependencyResolutionManagement {
-    versionCatalogs { libs }
+    versionCatalogs { libs; testLibs }
 }
 
 val kotlinVersion = "1.9.20"
 val MutableVersionCatalogContainer.libs get() = create("libs") {
-    library("compiler-embeddable", "org.jetbrains.kotlin", "kotlin-compiler-embeddable").version(kotlinVersion)
+    library("compiler", "org.jetbrains.kotlin", "kotlin-compiler").version(kotlinVersion)
     library("auto-service", "com.google.auto.service", "auto-service").version("1.1.1")
+    library("gradle-plugin-api", "org.jetbrains.kotlin", "kotlin-gradle-plugin-api").version(kotlinVersion)
 }
 
 val MutableVersionCatalogContainer.testLibs get() = create("testLibs") {
