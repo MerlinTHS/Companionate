@@ -1,6 +1,5 @@
 package io.mths.companionate.generators
 
-import io.mths.companionate.Companionate
 import org.jetbrains.kotlin.GeneratedDeclarationKey
 import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.fir.FirSession
@@ -19,15 +18,19 @@ import org.jetbrains.kotlin.name.SpecialNames
 import org.jetbrains.kotlin.name.SpecialNames.DEFAULT_NAME_FOR_COMPANION_OBJECT
 import org.jetbrains.kotlin.utils.addToStdlib.runIf
 
-class CompanionGenerator(session: FirSession) : FirDeclarationGenerationExtension(session) {
-    companion object {
-        private val PREDICATE = LookupPredicate.create { annotated(FqName<Companionate>()) }
-    }
+class CompanionGenerator(session: FirSession, annotations: List<String>) : FirDeclarationGenerationExtension(session) {
+	object Key : GeneratedDeclarationKey() {
+		override fun toString() = "CompanionGeneratorKey"
+	}
+
+	private val companionPredicate = LookupPredicate.create { annotated(annotations.map(::FqName)) }
+
+	override fun FirDeclarationPredicateRegistrar.registerPredicates() {
+		register(companionPredicate)
+	}
 
     override fun generateNestedClassLikeDeclaration(owner: FirClassSymbol<*>, name: Name, context: NestedClassGenerationContext): FirClassLikeSymbol<*>? =
-        runIf(name == DEFAULT_NAME_FOR_COMPANION_OBJECT) {
-            createCompanionObject(owner, Key).symbol
-        }
+        runIf(name == DEFAULT_NAME_FOR_COMPANION_OBJECT) { createCompanionObject(owner, Key).symbol }
 
     override fun generateConstructors(context: MemberGenerationContext): List<FirConstructorSymbol> {
         val constructor = createDefaultPrivateConstructor(context.owner, Key)
@@ -42,22 +45,12 @@ class CompanionGenerator(session: FirSession) : FirDeclarationGenerationExtensio
     }
 
     override fun getNestedClassifiersNames(classSymbol: FirClassSymbol<*>, context: NestedClassGenerationContext): Set<Name> =
-        runIf(session.predicateBasedProvider.matches(PREDICATE, classSymbol)) {
+        runIf(session.predicateBasedProvider.matches(companionPredicate, classSymbol)) {
             setOf(DEFAULT_NAME_FOR_COMPANION_OBJECT)
         }.orEmpty()
-
-    object Key : GeneratedDeclarationKey() {
-        override fun toString() = "CompanionGeneratorKey"
-    }
-
-    override fun FirDeclarationPredicateRegistrar.registerPredicates() {
-        register(PREDICATE)
-    }
 }
 
 private val FirClassSymbol<*>.isCompanion get() =
-	(classKind == ClassKind.OBJECT) and (this is FirRegularClassSymbol)
-		&& with(classId) { isNestedClass && shortClassName == DEFAULT_NAME_FOR_COMPANION_OBJECT }
-
-private inline fun <reified T> FqName() =
-    FqName(T::class.qualifiedName!!)
+	(classKind == ClassKind.OBJECT) and (this is FirRegularClassSymbol) and with(classId) {
+		isNestedClass && shortClassName == DEFAULT_NAME_FOR_COMPANION_OBJECT
+	}

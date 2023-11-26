@@ -4,12 +4,10 @@ plugins {
 }
 
 dependencies {
-    compileOnly(project(":annotations"))
     compileOnly(libs.compiler)
     compileOnly(libs.auto.service)
     kapt(libs.auto.service)
 
-    testImplementation(project(":annotations"))
     testImplementation(libs.compiler)
     testImplementation(testLibs.internal.framework)
 

@@ -1,6 +1,5 @@
 package io.mths.companionate.runners
 
-import io.mths.companionate.services.AnnotationProvider
 import io.mths.companionate.services.ExtensionRegistrarConfigurator
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.test.FirParser
@@ -25,16 +24,15 @@ open class AbstractJvmBoxTest : BaseTestRunner(), RunnerWithTargetBackendForTest
             dependencyKind = DependencyKind.Binary
         }
 
-        configureFirParser(FirParser.Psi)
-
         defaultDirectives {
             + DUMP_IR
         }
 
+		configureFirParser(FirParser.Psi)
         commonFirWithPluginFrontendConfiguration()
         fir2IrStep()
 
-        useConfigurators(::ExtensionRegistrarConfigurator, ::AnnotationProvider)
+        useConfigurators(::ExtensionRegistrarConfigurator)
         useAfterAnalysisCheckers(::BlackBoxCodegenSuppressor)
     }
 }

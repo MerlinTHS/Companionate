@@ -1,6 +1,7 @@
 rootProject.name = "Companionate"
+include("gradle-plugin")
 include("compiler-plugin")
-include("annotations")
+include("demo")
 
 pluginManagement {
     repositories {

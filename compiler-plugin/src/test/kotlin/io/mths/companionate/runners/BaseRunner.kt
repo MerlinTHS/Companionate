@@ -23,7 +23,6 @@ abstract class BaseTestRunner : AbstractKotlinCompilerTest() {
     }
 }
 
-
 fun TestConfigurationBuilder.commonFirWithPluginFrontendConfiguration() {
     baseFirDiagnosticTestConfiguration()
 

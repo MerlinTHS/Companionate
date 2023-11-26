@@ -9,10 +9,14 @@ import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.EnvironmentConfigurator
 import org.jetbrains.kotlin.test.services.TestServices
 
-@OptIn(ExperimentalCompilerApi::class)
 class ExtensionRegistrarConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
+	// TODO: Replace with custom directives
+	private val annotations = listOf(
+		"io.mths.companionate.Companionate",
+	)
 
-    override fun ExtensionStorage.registerCompilerExtensions(module: TestModule, configuration: CompilerConfiguration) {
-        FirExtensionRegistrarAdapter.registerExtension(FirCompanionateRegistrar())
+	@ExperimentalCompilerApi
+	override fun ExtensionStorage.registerCompilerExtensions(module: TestModule, configuration: CompilerConfiguration) {
+        FirExtensionRegistrarAdapter.registerExtension(FirCompanionateRegistrar(annotations))
     }
 }

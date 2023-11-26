@@ -1,13 +1,14 @@
 <h1 align="center">Companionate</h1>
 
-Companionate is a compiler plugin that allows you to add a companion object to a type annotated with `@Companionate`.
-This annotation can also be used as a meta-annotation for those you use with your annotation processor.
+Companionate is a compiler plugin that allows you to add a companion object to classes and interfaces
+that are annotated with an arbitrary annotation that you can specify in the build configuration.
+This way you can also use existing third-party annotations that you don't own.
 
 ## Tests
 
 If you're getting ClassNotFoundException for `com/intellij/openapi/util/SystemInfo` you likely use the
 compiler embeddable as dependency `org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.20`.
-Use the `org.jetbrains.kotlin:kotlin-compiler:1.9.20` instead or include the 
+Use the `org.jetbrains.kotlin:kotlin-compiler:1.9.20` instead or include the
 intellij OpenAPI dependency which contains the missing class.
 
 ```kotlin
