@@ -1,12 +1,10 @@
 package io.mths.companionate
 
 import com.google.auto.service.AutoService
-import io.mths.companionate.cli.CompanionateConfigKeys
 import io.mths.companionate.cli.CompanionateConfigKeys.ANNOTATION
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
-import org.jetbrains.kotlin.fir.builder.toMutableOrEmpty
 import org.jetbrains.kotlin.fir.extensions.FirExtensionRegistrarAdapter
 
 @OptIn(ExperimentalCompilerApi::class)

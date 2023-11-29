@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("kapt")
+	`maven-publish`
 }
 
 dependencies {
@@ -25,6 +26,18 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
     testImplementation("org.jetbrains.kotlin:kotlin-compiler-internal-test-framework:1.9.0")
     testImplementation("junit:junit:4.13.2")
+}
+
+publishing {
+	publications {
+		create<MavenPublication>("maven") {
+			groupId = "io.github.merlinths"
+			artifactId = "companionate-compiler-plugin"
+			version = "1.0.0"
+
+			from(components["kotlin"])
+		}
+	}
 }
 
 sourceSets.test {
