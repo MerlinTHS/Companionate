@@ -22,10 +22,12 @@ class CompanionGenerator(session: FirSession, annotations: List<String>) : FirDe
 		override fun toString() = "CompanionGeneratorKey"
 	}
 
-	private val annotatedPredicate = LookupPredicate.create { annotated(annotations.map(::FqName)) }
+	private val companionPredicate = LookupPredicate.create {
+		annotated(annotations.map(::FqName))
+	}
 
 	override fun FirDeclarationPredicateRegistrar.registerPredicates() {
-		register(annotatedPredicate)
+		register(companionPredicate)
 	}
 
     override fun generateNestedClassLikeDeclaration(owner: FirClassSymbol<*>, name: Name, context: NestedClassGenerationContext): FirClassLikeSymbol<*>? =
@@ -44,7 +46,7 @@ class CompanionGenerator(session: FirSession, annotations: List<String>) : FirDe
     }
 
     override fun getNestedClassifiersNames(classSymbol: FirClassSymbol<*>, context: NestedClassGenerationContext): Set<Name> =
-        runIf(classSymbol matches annotatedPredicate && !classSymbol.isSingleton) {
+        runIf(classSymbol matches companionPredicate and classSymbol.needsCompanion) {
             setOf(DEFAULT_NAME_FOR_COMPANION_OBJECT)
         }.orEmpty()
 
@@ -56,6 +58,9 @@ private val FirClassSymbol<*>.isCompanion get() =
 	isSingleton && with(classId) {
 		isNestedClass && shortClassName == DEFAULT_NAME_FOR_COMPANION_OBJECT
 	}
+
+private val FirClassSymbol<*>.needsCompanion get() =
+	!isSingleton && declarationSymbols.none { (it as? FirClassSymbol<*>)?.isCompanion ?: false }
 
 private val FirClassSymbol<*>.isSingleton get() =
 	classKind == ClassKind.OBJECT
