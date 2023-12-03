@@ -1,7 +1,7 @@
 package io.mths.companionate.runners
 
 import io.mths.companionate.CompanionateDirectives
-import io.mths.companionate.services.ExtensionRegistrarConfigurator
+import io.mths.companionate.services.CompanionateRegistrar
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.test.FirParser
 import org.jetbrains.kotlin.test.TargetBackend
@@ -14,7 +14,7 @@ import org.jetbrains.kotlin.test.model.DependencyKind
 import org.jetbrains.kotlin.test.model.FrontendKinds
 import org.jetbrains.kotlin.test.runners.RunnerWithTargetBackendForTestGeneratorMarker
 
-open class AbstractJvmBoxTest : BaseTestRunner(), RunnerWithTargetBackendForTestGeneratorMarker {
+open class AbstractJvmBoxTest : BaseBoxTest(), RunnerWithTargetBackendForTestGeneratorMarker {
     override val targetBackend = TargetBackend.JVM_IR
 
     override fun TestConfigurationBuilder.configuration() {
@@ -34,7 +34,7 @@ open class AbstractJvmBoxTest : BaseTestRunner(), RunnerWithTargetBackendForTest
         fir2IrStep()
 
 		useDirectives(CompanionateDirectives)
-        useConfigurators(::ExtensionRegistrarConfigurator)
+        useConfigurators(::CompanionateRegistrar)
         useAfterAnalysisCheckers(::BlackBoxCodegenSuppressor)
     }
 }

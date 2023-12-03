@@ -1,0 +1,15 @@
+FILE: AnnotatedSingleton.kt
+    package io.mths.companionate.diagnostics
+
+    public final annotation class Companionate : R|kotlin/Annotation| {
+        public constructor(): R|io/mths/companionate/diagnostics/Companionate| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
+    @R|io/mths/companionate/diagnostics/Companionate|() public final object Example : R|kotlin/Any| {
+        private constructor(): R|io/mths/companionate/diagnostics/Example| {
+            super<R|kotlin/Any|>()
+        }
+
+    }
