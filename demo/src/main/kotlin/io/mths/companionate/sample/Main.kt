@@ -3,7 +3,9 @@ package io.mths.companionate.sample
 annotation class Companionate
 
 @Companionate
-interface Person
+interface Person {
+	companion object
+}
 
 fun Person.Companion.greet() {
 	println("Hello Companionate!")
